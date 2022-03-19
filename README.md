@@ -1,28 +1,14 @@
 # Budget Manager
 JetBrains Academy. Project: Budget Manager. </br></br>
-Program reads the data on purchases and shows the total amount of purchases.</br>
-Program process every line the user inputs. To end the input, the user should type</br>
-End-of-file symbol that tells your operating system that no more input will be provided.</br>
-It's Ctrl+D on Linux and Mac and Ctrl+Z on Windows.</br>
-Program read data from the console and at the end show the list of all purchases and its</br>
-total amount. It should be displayed as follows: <b>Total: $23.00</b></br></br>
-
-Jar file is located by ./Budget Manager/task/build/libs.</br></br>
-
-<b>Example:</b></br></br>
-
-The greater-than symbol followed by a space (<b>"/>"</b>) represents the user input. Notice that</br>
-it's not part of the input.</br></br>
-
-> />Almond 250gm $35.43</br>
-> />LEGO DUPLO Town Farm Animals $10.10</br>
-> />Sensodyne Pronamel Toothpaste $19.74</br>
-> />Hershey's milk chocolate bars $8.54</br>
-> />Gildan LT $8.61</br>
-Almond 250gm $35.43</br>
-LEGO DUPLO Town Farm Animals $10.10</br>
-Sensodyne Pronamel Toothpaste $19.74</br>
-Hershey's milk chocolate bars $8.54</br>
-Gildan LT $8.61</br>
->
->Total: $82.42
+Program have menu that consist of 4 items.</br>
+1. <b>Add Income</b>. Program will ask you to enter the amount of income</br>
+that will be added to your balance.</br>
+2. <b>Add Purchase</b>. This item will ask you for item and it's price. Price will </br>
+be removed from balance and item will be added to list of purchases.</br>
+3. <b>Show the list of purchases</b>. This option will show all added purchases,</br> 
+it's price and total of all purchases.</br>
+4. <b>Balance</b>. Show current balance.</br>
+5. <b>Exit</b>. Exit the program (this option under number <b>0</b>).</br></br>
+Notice, that the amount of remaining money cannot be negative.</br>
+In this case, balance will be equal to $0.
+</br></br>Jar file is located by ./Budget Manager/task/build/libs.</br></br>
