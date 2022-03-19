@@ -7,6 +7,8 @@ It's Ctrl+D on Linux and Mac and Ctrl+Z on Windows.</br>
 Program read data from the console and at the end show the list of all purchases and its</br>
 total amount. It should be displayed as follows: <b>Total: $23.00</b></br></br>
 
+Jar file is located by ./Budget Manager/task/build/libs.</br></br>
+
 <b>Example:</b></br></br>
 
 The greater-than symbol followed by a space (<b>"/>"</b>) represents the user input. Notice that</br>
