@@ -12,6 +12,8 @@ it's price and total of all purchases.</br>
 Notice, that the amount of remaining money cannot be negative.</br>
 In this case, balance will be equal to $0.</br>
 
+</br><b>3 Stage</b></br>
+
 </br>Added to purchases specific categories. The function allows you to</br>
 output the shopping list by type. After selecting the action of showing</br>
 the list of expenses, offer to show either a certain category or a</br>
