@@ -2,19 +2,20 @@ package budget;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 //Class Manager to make action with budget
 public class Manager {
     private double balance;
-    private ArrayList<String> purchaseList;
+    private Map<String, TypeOfPurchase> purchaseList;
     private double total;
-    DecimalFormat decimalFormat; //decimalformat to output number with 2 number after decimal .##
 
     public Manager() {
         balance = 0;
         total = 0;
-        purchaseList = new ArrayList<>();
-        decimalFormat = new DecimalFormat("##.##");
+        purchaseList = new LinkedHashMap<>();
     }
     //Getters and setters
     public double getBalance() {
@@ -25,12 +26,12 @@ public class Manager {
         this.balance = balance;
     }
 
-    public ArrayList<String> getPurchaseList() {
-        return purchaseList;
+    public void setPurchaseList(Map<String, TypeOfPurchase> purchaseList) {
+        this.purchaseList = purchaseList;
     }
 
-    public void setPurchaseList(ArrayList<String> purchaseList) {
-        this.purchaseList = purchaseList;
+    public Map<String, TypeOfPurchase> getPurchaseList() {
+        return purchaseList;
     }
 
     public double getTotal() {
@@ -45,9 +46,10 @@ public class Manager {
         balance += amount;
     }
     //Add purchase to list and change balance
-    public void addPurchase(String purchase) {
-        purchaseList.add(purchase);
+    public void addPurchase(String purchase, TypeOfPurchase type) {
+        purchaseList.put(purchase, type);
         double price = Double.parseDouble(purchase.substring(purchase.indexOf("$") + 1));
+        total += price;
         if (balance <= price) {
             balance = 0;
         } else {
@@ -55,15 +57,22 @@ public class Manager {
         }
     }
     //Show list of purchases and calculate total of purchases
-    public void showListOfPurchase() {
+    public void showListOfPurchase(TypeOfPurchase type) {
+        double typeSum = 0;
         if (purchaseList.size() > 0) {
-            for (String purchase :
-                    purchaseList) {
-                total += Double.parseDouble(purchase.substring(purchase.indexOf("$") + 1));
+            System.out.println("\n" + type.toString() + ":");
+            for (Map.Entry<String, TypeOfPurchase> entry :
+                    purchaseList.entrySet()) {
+                if (type == TypeOfPurchase.ALL) {
+                    System.out.println(entry.getKey());
+                } else {
+                    if (entry.getValue() == type) {
+                        typeSum += Double.parseDouble(entry.getKey().substring(entry.getKey().indexOf("$") + 1));
+                        System.out.println(entry.getKey());
+                    }
+                }
             }
-            System.out.println();
-            purchaseList.forEach(System.out::println);
-            System.out.println("Total sum: $" + decimalFormat.format(total) + "\n");
+            System.out.println("Total sum: $" + (type == TypeOfPurchase.ALL ? total : typeSum));
         } else {
             System.out.println("\nThe purchase list is empty\n");
         }

@@ -10,9 +10,6 @@ public class Main {
         String choice, purchase;
         double amount = 0;
         Manager budgetManager = new Manager();
-        //decimalformat to output number with 2 number after decimal .##
-        DecimalFormat decimalFormat = new DecimalFormat("##.##");
-        double formattedNumber;
 
         //Main loop of program
         while (true) {
@@ -34,22 +31,52 @@ public class Main {
                     break;
                 //Add purchase to list and change balance
                 case "2":
-                    System.out.println("\nEnter purchase name:");
-                    purchase = scanner.nextLine();
-                    System.out.println("Enter its price:");
-                    amount = scanner1.nextDouble();
-                    purchase = purchase.concat(" $" + amount);
-                    budgetManager.addPurchase(purchase);
-                    System.out.println("Purchase was added!\n");
+                    while (true) {
+                        System.out.println("\nChoose the type of purchase");
+                        System.out.println("1) Food");
+                        System.out.println("2) Clothes");
+                        System.out.println("3) Entertainment");
+                        System.out.println("4) Other");
+                        System.out.println("5) Back\n");
+                        choice = scanner.nextLine();
+
+                        if (choice.equals("5")) {
+                            System.out.println();
+                            break;
+                        }
+
+                        System.out.println("\nEnter purchase name:");
+                        purchase = scanner.nextLine();
+                        System.out.println("Enter its price:");
+                        amount = scanner1.nextDouble();
+                        purchase = purchase.concat(" $" + amount);
+                        budgetManager.addPurchase(purchase, TypeOfPurchase.values()[Integer.parseInt(choice) - 1]);
+                        System.out.println("Purchase was added!");
+                    }
                     break;
                 //Show list of purchases and total of it
                 case "3":
-                    budgetManager.showListOfPurchase();
+                    while (true) {
+                        System.out.println("\nChoose the type of purchase");
+                        System.out.println("1) Food");
+                        System.out.println("2) Clothes");
+                        System.out.println("3) Entertainment");
+                        System.out.println("4) Other");
+                        System.out.println("5) All");
+                        System.out.println("6) Back\n");
+                        choice = scanner.nextLine();
+
+                        if (choice.equals("6")) {
+                            System.out.println();
+                            break;
+                        }
+
+                        budgetManager.showListOfPurchase(TypeOfPurchase.values()[Integer.parseInt(choice) - 1]);
+                    }
                     break;
                 //Show balance
                 case "4":
-                    formattedNumber = Double.parseDouble(decimalFormat.format(budgetManager.getBalance()));
-                    System.out.println("\nBalance: $" + formattedNumber + "\n");
+                    System.out.println("\nBalance: $" + budgetManager.getBalance() + "\n");
                     break;
                 //Exit
                 case "0":
