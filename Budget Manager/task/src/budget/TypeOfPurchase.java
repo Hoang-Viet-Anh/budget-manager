@@ -1,5 +1,8 @@
 package budget;
 
+import java.util.Locale;
+import java.util.Map;
+
 public enum TypeOfPurchase {
     FOOD, CLOTHES, ENTERTAINMENT, OTHER, ALL;
 

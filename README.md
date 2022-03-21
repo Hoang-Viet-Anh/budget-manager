@@ -1,5 +1,8 @@
 # Budget Manager
 JetBrains Academy. Project: Budget Manager. </br></br>
+
+<b>2 Stage</b></br>
+
 Program have menu that consist of 4 items.</br>
 >1. <b>Add Income</b>. Program will ask you to enter the amount of income</br>
 that will be added to your balance.</br>
@@ -19,4 +22,9 @@ output the shopping list by type. After selecting the action of showing</br>
 the list of expenses, offer to show either a certain category or a</br>
 general list. At the end print the total amount of purchases that are on</br>
 the list.
+
+</br><b>4 Stage</b></br>
+
+Added items Save and Load to the menu.</br>
+File <b>purchases.txt</b> store purchases.
 </br></br>Jar file is located by ./Budget Manager/task/build/libs.</br></br>

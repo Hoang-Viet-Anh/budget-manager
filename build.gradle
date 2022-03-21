@@ -24,7 +24,7 @@ subprojects {
     
     jar {
     	manifest {
-    		attributes "Main-Class": "banking.Main"
+    		attributes "Main-Class": "budget.Main"
     	}
     	duplicatesStrategy "exclude"
     	from { 
@@ -36,7 +36,7 @@ subprojects {
     
     task fatJar(type: Jar) {
     	manifest {
-    		attributes "Main-Class": "banking.Main"
+    		attributes "Main-Class": "budget.Main"
     	}
     	archiveClassifier = "all"
     	duplicatesStrategy "exclude"

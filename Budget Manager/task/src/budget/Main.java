@@ -1,6 +1,6 @@
 package budget;
 
-import java.text.DecimalFormat;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -18,6 +18,8 @@ public class Main {
             System.out.println("2) Add purchase");
             System.out.println("3) Show list of purchases");
             System.out.println("4) Balance");
+            System.out.println("5) Save");
+            System.out.println("6) Load");
             System.out.println("0) Exit");
             choice = scanner.nextLine();
 
@@ -37,7 +39,7 @@ public class Main {
                         System.out.println("2) Clothes");
                         System.out.println("3) Entertainment");
                         System.out.println("4) Other");
-                        System.out.println("5) Back\n");
+                        System.out.println("5) Back");
                         choice = scanner.nextLine();
 
                         if (choice.equals("5")) {
@@ -49,7 +51,7 @@ public class Main {
                         purchase = scanner.nextLine();
                         System.out.println("Enter its price:");
                         amount = scanner1.nextDouble();
-                        purchase = purchase.concat(" $" + amount);
+                        purchase = purchase.concat(" $" + String.format("%.2f", amount));
                         budgetManager.addPurchase(purchase, TypeOfPurchase.values()[Integer.parseInt(choice) - 1]);
                         System.out.println("Purchase was added!");
                     }
@@ -76,7 +78,21 @@ public class Main {
                     break;
                 //Show balance
                 case "4":
-                    System.out.println("\nBalance: $" + budgetManager.getBalance() + "\n");
+                    System.out.printf("\nBalance: $%.2f\n\n",budgetManager.getBalance());
+                    break;
+                //Save balance and list of purchases
+                case "5":
+                    try {
+                        budgetManager.savePurchases();
+                    } catch (IOException ignored){}
+                    System.out.println("\nPurchases were saved!\n");
+                    break;
+                //Load from file purchases.txt balance and list of purchases
+                case "6":
+                    try {
+                       budgetManager.loadPurchases();
+                    } catch (IOException ignored){}
+                    System.out.println("\nPurchases were loaded!\n");
                     break;
                 //Exit
                 case "0":
