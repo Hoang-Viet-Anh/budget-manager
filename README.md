@@ -27,4 +27,18 @@ the list.
 
 Added items Save and Load to the menu.</br>
 File <b>purchases.txt</b> store purchases.
+
+</br><b>5 Stage(Final stage)</b></br></br>
+
+Added analyzer. Once this item is called, analyzer</br>
+will offer a way to sort the purchases.</br></br>
+
+There are three of them:</br></br>
+
+> 1.Sort All – sort the entire shopping list and display it so</br>
+> that the most expensive purchases are at the top of the list.</br></br>
+> 2.Sort By Type – show which category eats the most money. If a </br>
+> category has no purchases in it the total sum should be $0.</br></br>
+> 3.Sort Certain Type – same as Sort All, but for a specific category.
+
 </br></br>Jar file is located by ./Budget Manager/task/build/libs.</br></br>

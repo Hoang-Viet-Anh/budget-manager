@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //Class Manager to make action with budget
 public class Manager {
@@ -41,6 +42,7 @@ public class Manager {
     public void setTotal(double total) {
         this.total = total;
     }
+
     //Top up balance
     public void addBalance(double amount) {
         balance += amount;
@@ -114,5 +116,202 @@ public class Manager {
         }
         balance = savedBalance;
         scanner.close();
+    }
+    //Print sorted list of purchases
+    public void sortAllPurchases() {
+        if (!purchaseList.isEmpty()) {
+            List<String> list = new ArrayList<>(purchaseList.keySet());
+            list.sort(new PurchasesComparator());
+            list = list.stream().map(String::trim).collect(Collectors.toList());
+            System.out.println();
+            list.forEach(System.out::println);
+        } else {
+            System.out.println("\nThe purchase list is empty!");
+        }
+    }
+    //Print sorted list of certain purchases
+    public void sortCertainType(TypeOfPurchase type) {
+        List<String> list = new ArrayList<>();
+        double sum = 0;
+        for (Map.Entry<String, TypeOfPurchase> entry:
+             purchaseList.entrySet()) {
+            if (type == entry.getValue()) {
+                list.add(entry.getKey());
+                sum += Double.parseDouble(entry.getKey().substring(entry.getKey().lastIndexOf("$") + 1));
+            }
+        }
+        if (!list.isEmpty()) {
+            list.sort(new PurchasesComparator());
+            list = list.stream().map(String::trim).collect(Collectors.toList());
+            System.out.println();
+            list.forEach(System.out::println);
+            System.out.printf("Total sum: $%.2f\n", sum);
+        } else {
+            System.out.println("\nThe purchase list is empty!");
+        }
+    }
+    //Print sorted list of certain type total
+    public void sortByType() {
+        ArrayList<String> typesList = new ArrayList<>();
+        double sum = 0;
+
+        for (TypeOfPurchase type:
+             TypeOfPurchase.values()) {
+            if (type != TypeOfPurchase.ALL) {
+                for (Map.Entry<String, TypeOfPurchase> entry :
+                        purchaseList.entrySet()) {
+                    if (entry.getValue() == type) {
+                        sum += Double.parseDouble(entry.getKey().substring(entry.getKey().lastIndexOf("$") + 1));
+                    }
+                }
+                typesList.add(String.format("%s - $%.2f", type.toString(), sum));
+                sum = 0;
+            }
+        }
+            typesList.sort(new PurchasesComparator());
+            System.out.println("\nTypes:");
+            typesList.forEach(System.out::println);
+            System.out.println("Total sum: $" + total);
+    }
+    //Choice menu for 'add purchase' and 'show list of purchases'
+    public void printChoiceMenu(boolean bool) {
+        System.out.println("\nChoose the type of purchase");
+        System.out.println("1) Food");
+        System.out.println("2) Clothes");
+        System.out.println("3) Entertainment");
+        System.out.println("4) Other");
+        if (bool) {
+            System.out.println("5) All");
+        }
+        System.out.println("6) Back\n");
+    }
+
+    //Menu by choice
+    public void printMenu() {
+        System.out.println("Choose your action:");
+        System.out.println("1) Add income");
+        System.out.println("2) Add purchase");
+        System.out.println("3) Show list of purchases");
+        System.out.println("4) Balance");
+        System.out.println("5) Save");
+        System.out.println("6) Load");
+        System.out.println("7) Analyze (Sort)");
+        System.out.println("0) Exit");
+    }
+
+    public void addIncome(Scanner scanner) {
+        System.out.println("\nEnter amount:");
+        addBalance(scanner.nextDouble());
+        System.out.println("Income was added!\n");
+    }
+
+    public void addPurchasesMenu(Scanner scanner, Scanner scanner1) {
+        String choice, purchase;
+        double amount;
+        while (true) {
+            printChoiceMenu(false);
+            choice = scanner.nextLine();
+
+            if (choice.equals("5")) {
+                System.out.println();
+                break;
+            }
+
+            System.out.println("\nEnter purchase name:");
+            purchase = scanner.nextLine();
+            System.out.println("Enter its price:");
+            amount = scanner1.nextDouble();
+            purchase = purchase.concat(" $" + String.format("%.2f", amount));
+            addPurchase(purchase, TypeOfPurchase.values()[Integer.parseInt(choice) - 1]);
+            System.out.println("Purchase was added!");
+        }
+    }
+
+    public void showListOfPurchasesMenu(Scanner scanner) {
+        String choice;
+        while (true) {
+            printChoiceMenu(true);
+            choice = scanner.nextLine();
+
+            if (choice.equals("6")) {
+                System.out.println();
+                break;
+            }
+
+            showListOfPurchase(TypeOfPurchase.values()[Integer.parseInt(choice) - 1]);
+        }
+    }
+
+    public void showBalance() {
+        System.out.printf("\nBalance: $%.2f\n\n", getBalance());
+    }
+
+    public void showSaveMenu() {
+        try {
+            savePurchases();
+        } catch (IOException ignored){}
+        System.out.println("\nPurchases were saved!\n");
+    }
+
+    public void showLoadMenu() {
+        try {
+            loadPurchases();
+        } catch (IOException ignored){}
+        System.out.println("\nPurchases were loaded!\n");
+    }
+
+    public void showAnalyzeMenu(Scanner scanner) {
+        String choice;
+        analyze:
+        while (true) {
+            System.out.println("\nHow do you want to sort?");
+            System.out.println("1) Sort all purchases");
+            System.out.println("2) Sort by type");
+            System.out.println("3) Sort certain type");
+            System.out.println("4) Back");
+            choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    sortAllPurchases();
+                    break;
+                case "2":
+                    sortByType();
+                    break;
+                case "3":
+                    sort:
+                    while (true) {
+                        System.out.println("\nChoose the type of purchase");
+                        System.out.println("1) Food");
+                        System.out.println("2) Clothes");
+                        System.out.println("3) Entertainment");
+                        System.out.println("4) Other");
+                        choice = scanner.nextLine();
+
+                        switch (choice) {
+                            case "1":
+                            case "2":
+                            case "3":
+                            case "4":
+                                sortCertainType(TypeOfPurchase
+                                        .values()[Integer.parseInt(choice) - 1]);
+                                break sort;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                case "4":
+                    System.out.println();
+                    break analyze;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void showExitMenu() {
+        System.out.println("\nBye!");
+        System.exit(0);
     }
 }
