@@ -21,33 +21,33 @@ subprojects {
             languageVersion = JavaLanguageVersion.of(testJava)
         }
     }
-    
+
     jar {
-    	manifest {
-    		attributes "Main-Class": "budget.Main"
-    	}
-    	duplicatesStrategy "exclude"
-    	from { 
-    		configurations.runtimeClasspath.collect { 
-    			it.isDirectory() ? it : zipTree(it) 
-    		}
-    	} 
+        manifest {
+            attributes "Main-Class": "budget.Main"
+        }
+        duplicatesStrategy "exclude"
+        from {
+            configurations.runtimeClasspath.collect {
+                it.isDirectory() ? it : zipTree(it)
+            }
+        }
     }
-    
+
     task fatJar(type: Jar) {
-    	manifest {
-    		attributes "Main-Class": "budget.Main"
-    	}
-    	archiveClassifier = "all"
-    	duplicatesStrategy "exclude"
-    	from { 
-    		configurations.runtimeClasspath.collect { 
-    			it.isDirectory() ? it : zipTree(it) 
-    		}
-    	}
-    	with jar
+        manifest {
+            attributes "Main-Class": "budget.Main"
+        }
+        archiveClassifier = "all"
+        duplicatesStrategy "exclude"
+        from {
+            configurations.runtimeClasspath.collect {
+                it.isDirectory() ? it : zipTree(it)
+            }
+        }
+        with jar
     }
-    
+
     repositories {
         mavenCentral()
         maven { url "https://jitpack.io" }

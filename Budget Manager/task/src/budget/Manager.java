@@ -223,11 +223,9 @@ public class Manager {
             switch (choice) {
                 case "1":
                     analyzer.changeSort(sortAllPurchases);
-                    analyzer.sort(purchaseList);
                     break;
                 case "2":
                     analyzer.changeSort(sortByType);
-                    analyzer.sort(purchaseList);
                     break;
                 case "3":
                     sort:
@@ -246,7 +244,6 @@ public class Manager {
                             case "4":
                                 SortCertainType.type = TypeOfPurchase.values()[Integer.parseInt(choice) - 1];
                                 analyzer.changeSort(sortCertainType);
-                                analyzer.sort(purchaseList);
                                 break sort;
                             default:
                                 break;
@@ -259,6 +256,7 @@ public class Manager {
                 default:
                     break;
             }
+            analyzer.sort(purchaseList);
         }
     }
 
