@@ -117,63 +117,8 @@ public class Manager {
         balance = savedBalance;
         scanner.close();
     }
-    //Print sorted list of purchases
-    public void sortAllPurchases() {
-        if (!purchaseList.isEmpty()) {
-            List<String> list = new ArrayList<>(purchaseList.keySet());
-            list.sort(new PurchasesComparator());
-            list = list.stream().map(String::trim).collect(Collectors.toList());
-            System.out.println();
-            list.forEach(System.out::println);
-        } else {
-            System.out.println("\nThe purchase list is empty!");
-        }
-    }
-    //Print sorted list of certain purchases
-    public void sortCertainType(TypeOfPurchase type) {
-        List<String> list = new ArrayList<>();
-        double sum = 0;
-        for (Map.Entry<String, TypeOfPurchase> entry:
-             purchaseList.entrySet()) {
-            if (type == entry.getValue()) {
-                list.add(entry.getKey());
-                sum += Double.parseDouble(entry.getKey().substring(entry.getKey().lastIndexOf("$") + 1));
-            }
-        }
-        if (!list.isEmpty()) {
-            list.sort(new PurchasesComparator());
-            list = list.stream().map(String::trim).collect(Collectors.toList());
-            System.out.println();
-            list.forEach(System.out::println);
-            System.out.printf("Total sum: $%.2f\n", sum);
-        } else {
-            System.out.println("\nThe purchase list is empty!");
-        }
-    }
-    //Print sorted list of certain type total
-    public void sortByType() {
-        ArrayList<String> typesList = new ArrayList<>();
-        double sum = 0;
-
-        for (TypeOfPurchase type:
-             TypeOfPurchase.values()) {
-            if (type != TypeOfPurchase.ALL) {
-                for (Map.Entry<String, TypeOfPurchase> entry :
-                        purchaseList.entrySet()) {
-                    if (entry.getValue() == type) {
-                        sum += Double.parseDouble(entry.getKey().substring(entry.getKey().lastIndexOf("$") + 1));
-                    }
-                }
-                typesList.add(String.format("%s - $%.2f", type.toString(), sum));
-                sum = 0;
-            }
-        }
-            typesList.sort(new PurchasesComparator());
-            System.out.println("\nTypes:");
-            typesList.forEach(System.out::println);
-            System.out.println("Total sum: $" + total);
-    }
     //Choice menu for 'add purchase' and 'show list of purchases'
+
     public void printChoiceMenu(boolean bool) {
         System.out.println("\nChoose the type of purchase");
         System.out.println("1) Food");
@@ -261,6 +206,10 @@ public class Manager {
     }
 
     public void showAnalyzeMenu(Scanner scanner) {
+        SortCertainType sortCertainType = new SortCertainType(TypeOfPurchase.ALL);
+        SortAllPurchases sortAllPurchases = new SortAllPurchases();
+        SortByType sortByType = new SortByType();
+        Analyzer analyzer = new Analyzer(sortAllPurchases);
         String choice;
         analyze:
         while (true) {
@@ -273,10 +222,12 @@ public class Manager {
 
             switch (choice) {
                 case "1":
-                    sortAllPurchases();
+                    analyzer.changeSort(sortAllPurchases);
+                    analyzer.sort(purchaseList);
                     break;
                 case "2":
-                    sortByType();
+                    analyzer.changeSort(sortByType);
+                    analyzer.sort(purchaseList);
                     break;
                 case "3":
                     sort:
@@ -293,8 +244,9 @@ public class Manager {
                             case "2":
                             case "3":
                             case "4":
-                                sortCertainType(TypeOfPurchase
-                                        .values()[Integer.parseInt(choice) - 1]);
+                                SortCertainType.type = TypeOfPurchase.values()[Integer.parseInt(choice) - 1];
+                                analyzer.changeSort(sortCertainType);
+                                analyzer.sort(purchaseList);
                                 break sort;
                             default:
                                 break;
