@@ -15,13 +15,7 @@ subprojects {
             languageVersion = JavaLanguageVersion.of(userJava)
         }
     }
-
-    compileTestJava {
-        javaCompiler = javaToolchains.compilerFor {
-            languageVersion = JavaLanguageVersion.of(testJava)
-        }
-    }
-
+    
     jar {
         manifest {
             attributes "Main-Class": "budget.Main"
@@ -46,6 +40,12 @@ subprojects {
             }
         }
         with jar
+    }
+    
+    compileTestJava {
+        javaCompiler = javaToolchains.compilerFor {
+            languageVersion = JavaLanguageVersion.of(testJava)
+        }
     }
 
     repositories {
